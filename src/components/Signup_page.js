@@ -1,14 +1,17 @@
-//만약 수정할 사항 있으면 주석 달아주세요
+// src/components/Signup_page.js
 import React, { useState } from 'react';
 
-const SignupPage = ({ setView, onSignup }) => {
+const API_URL = 'https://69363c86f8dc350aff3031af.mockapi.io/Login';
+
+const SignupPage = ({ setView, users, onSignupSuccess }) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [passwordCheck, setPasswordCheck] = useState('');
+  const [submitting, setSubmitting] = useState(false);
 
   const today = new Date().toISOString().slice(0, 10);
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
     if (!email || !password || !passwordCheck) {
@@ -21,10 +24,46 @@ const SignupPage = ({ setView, onSignup }) => {
       return;
     }
 
-    const success = onSignup(email, password);
-    if (success) {
-      // 회원가입 성공 시 로그인 화면으로 이동
-      setView('login');
+    // 이메일 중복 체크 (이미 MockAPI에서 가져온 users 이용)
+    const exists = users.some((user) => user.email_name === email);
+    if (exists) {
+      alert('이미 가입된 이메일입니다.');
+      return;
+    }
+
+    try {
+      setSubmitting(true);
+
+      const newUser = {
+        email_name: email,
+        password,
+        key: Date.now(),
+      };
+
+      const res = await fetch(API_URL, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(newUser),
+      });
+
+      if (!res.ok) {
+        throw new Error('Failed to signup');
+      }
+
+      const created = await res.json();
+
+      // 부모에게 알려서 users 상태 업데이트
+      if (onSignupSuccess) {
+        onSignupSuccess(created);
+      }
+
+      alert('회원가입이 완료되었습니다. 로그인 해주세요.');
+      setView('login'); // 로그인 페이지로 이동
+    } catch (error) {
+      console.error(error);
+      alert('회원가입 중 오류가 발생했습니다.');
+    } finally {
+      setSubmitting(false);
     }
   };
 
@@ -87,8 +126,12 @@ const SignupPage = ({ setView, onSignup }) => {
               </div>
 
               {/* 회원가입 버튼 */}
-              <button type="submit" className="btn btn-success w-100 mb-2">
-                회원가입
+              <button
+                type="submit"
+                className="btn btn-success w-100 mb-2"
+                disabled={submitting}
+              >
+                {submitting ? '가입 중...' : '회원가입'}
               </button>
             </form>
 

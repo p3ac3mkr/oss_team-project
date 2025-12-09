@@ -1,49 +1,82 @@
-import React, { useState } from 'react';
+// src/index.js
+import React, { useState, useEffect } from 'react';
 import ReactDOM from 'react-dom/client';
 import './index.css';
 import MainPage from './components/Main_page';
 import LoginPage from './components/Login_page';
 import SignupPage from './components/Signup_page';
 
-// --- [임시 컴포넌트] 마이 페이지 (나중에 My_page.js 만들어서 옮기세요) ---
-const MyPage = () => (
+const API_URL = 'https://69363c86f8dc350aff3031af.mockapi.io/Login';
+
+// --- [임시 컴포넌트] 마이 페이지 (나중에 My_page.js로 분리 가능) ---
+const MyPage = ({ currentUser }) => (
   <div className="container py-5">
     <h4 className="fw-bold mb-3">🍿 내가 찜한 영화</h4>
-    <div className="alert alert-info">아직 찜한 영화가 없어요!</div>
+    {currentUser ? (
+      <div className="alert alert-info">
+        <b>{currentUser.email_name}</b> 님의 찜한 영화 목록 (추후 구현 예정)
+      </div>
+    ) : (
+      <div className="alert alert-warning">로그인 정보가 없습니다.</div>
+    )}
   </div>
 );
 
 // --- [메인 로직] 전체 화면 관리 ---
 const RootComponent = () => {
-  const [view, setView] = useState('login'); // login, signup, main, mypage
-  const [users, setUsers] = useState([]);    // { email, password } 들을 저장
+  const [view, setView] = useState('login');      // login, signup, main, mypage
+  const [users, setUsers] = useState([]);         // MockAPI에서 가져온 회원 목록
+  const [currentUser, setCurrentUser] = useState(null); // 현재 로그인한 사용자
+  const [loading, setLoading] = useState(true);   // 사용자 목록 로딩 상태
 
-  // 회원가입 처리
-  const handleSignup = (email, password) => {
-    // 이미 가입된 이메일 체크
-    const exists = users.some((user) => user.email === email);
-    if (exists) {
-      alert('이미 가입된 이메일입니다.');
-      return false;
+  // ✅ 앱 처음 실행 시 MockAPI에서 회원 목록 가져오기
+  useEffect(() => {
+    const fetchUsers = async () => {
+      try {
+        const res = await fetch(API_URL);
+        if (!res.ok) throw new Error('Failed to fetch users');
+        const data = await res.json();
+        setUsers(data);
+      } catch (error) {
+        console.error(error);
+        alert('사용자 목록을 불러오는데 실패했습니다.');
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchUsers();
+  }, []);
+
+  // ✅ 로그인 처리: 불러온 users 배열에서 찾기
+  const handleLogin = (email, password) => {
+    if (loading) {
+      alert('아직 사용자 정보를 불러오는 중입니다. 잠시만 기다려주세요.');
+      return;
     }
 
-    setUsers((prev) => [...prev, { email, password }]);
-    alert('회원가입이 완료되었습니다. 로그인 해주세요.');
-    return true;
-  };
-
-  // 로그인 처리
-  const handleLogin = (email, password) => {
     const found = users.find(
-      (user) => user.email === email && user.password === password
+      (user) => user.email_name === email && user.password === password
     );
 
     if (found) {
+      setCurrentUser(found);
       alert(`환영합니다, ${email}님!`);
       setView('main');
     } else {
       alert('이메일 또는 비밀번호가 올바르지 않습니다.');
     }
+  };
+
+  // ✅ 회원가입 성공 후 부모에서 users 업데이트
+  const handleSignupSuccess = (createdUser) => {
+    setUsers((prev) => [...prev, createdUser]);
+  };
+
+  // ✅ 로그아웃 처리
+  const handleLogout = () => {
+    setCurrentUser(null);
+    setView('login');
   };
 
   return (
@@ -74,7 +107,7 @@ const RootComponent = () => {
               </button>
               <button
                 className="btn btn-sm btn-danger"
-                onClick={() => setView('login')}
+                onClick={handleLogout}
               >
                 로그아웃
               </button>
@@ -88,10 +121,14 @@ const RootComponent = () => {
         <LoginPage setView={setView} onLogin={handleLogin} />
       )}
       {view === 'signup' && (
-        <SignupPage setView={setView} onSignup={handleSignup} />
+        <SignupPage
+          setView={setView}
+          users={users}
+          onSignupSuccess={handleSignupSuccess}
+        />
       )}
       {view === 'main' && <MainPage />}
-      {view === 'mypage' && <MyPage />}
+      {view === 'mypage' && <MyPage currentUser={currentUser} />}
     </div>
   );
 };
