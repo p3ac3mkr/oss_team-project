@@ -1,13 +1,14 @@
+//만약 수정할 사항 있으면 주석 달아주십쇼 아마 이제 메인페이지 건들듯?
 import React from 'react';
 
-// 메인 페이지 컴포넌트
+// 메인 페이지 componentt
 const MainPage = ({ currentUser }) => {
   const userEmail = currentUser?.email_name; 
   // mockapi에서 email_name 필드 사용중임
 
   return (
     <div className="container py-4">
-      {/* 배너 (Hero Section) */}
+      {/* 배너*/}
       <div
         className="p-5 mb-4 bg-dark text-white rounded-3 shadow"
         style={{
@@ -50,7 +51,7 @@ const MainPage = ({ currentUser }) => {
         </div>
       </div>
 
-      {/* 영화 리스트 (Grid) */}
+      {/* 영화 리스트 (그리드 집어놈) */}
       <h3 className="fw-bold mb-3">🔥 현재 상영작</h3>
       <div className="row row-cols-1 row-cols-md-4 g-4 mb-5">
         {[1, 2, 3, 4].map((item) => (

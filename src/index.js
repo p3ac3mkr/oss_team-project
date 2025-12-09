@@ -29,7 +29,7 @@ const RootComponent = () => {
   const [currentUser, setCurrentUser] = useState(null); // 현재 로그인한 사용자
   const [loading, setLoading] = useState(true);   // 사용자 목록 로딩 상태
 
-  // ✅ 앱 처음 실행 시 MockAPI에서 회원 목록 가져오기
+  // 앱 처음 실행 시 MockAPI에서 회원 목록 가져오기
   useEffect(() => {
     const fetchUsers = async () => {
       try {
@@ -48,7 +48,7 @@ const RootComponent = () => {
     fetchUsers();
   }, []);
 
-  // ✅ 로그인 처리: 불러온 users 배열에서 찾기
+  // 로그인 처리: 불러온 users 배열에서 찾기, email_name, password,key,id로 구성해둠
   const handleLogin = (email, password) => {
     if (loading) {
       alert('아직 사용자 정보를 불러오는 중입니다. 잠시만 기다려주세요.');
@@ -68,12 +68,12 @@ const RootComponent = () => {
     }
   };
 
-  // ✅ 회원가입 성공 후 부모에서 users 업데이트
+  // 회원가입 성공 후 부모에서 users 업데이트 진행
   const handleSignupSuccess = (createdUser) => {
     setUsers((prev) => [...prev, createdUser]);
   };
 
-  // ✅ 로그아웃 처리
+  // 로그아웃 
   const handleLogout = () => {
     setCurrentUser(null);
     setView('login');

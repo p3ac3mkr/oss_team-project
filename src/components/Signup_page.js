@@ -1,4 +1,4 @@
-// src/components/Signup_page.js
+//만약 수정할 사항 있으면 주석 달아주십쇼
 import React, { useState } from 'react';
 
 const API_URL = 'https://69363c86f8dc350aff3031af.mockapi.io/Login';
@@ -24,7 +24,7 @@ const SignupPage = ({ setView, users, onSignupSuccess }) => {
       return;
     }
 
-    // 이메일 중복 체크 (이미 MockAPI에서 가져온 users 이용)
+    // 이메일 중복 체크 (이미 MockAPI에서 가져온 내용들로 화긴)
     const exists = users.some((user) => user.email_name === email);
     if (exists) {
       alert('이미 가입된 이메일입니다.');
@@ -52,13 +52,13 @@ const SignupPage = ({ setView, users, onSignupSuccess }) => {
 
       const created = await res.json();
 
-      // 부모에게 알려서 users 상태 업데이트
+      // 부모에게 알려서 users 상태 업데이트 진행
       if (onSignupSuccess) {
         onSignupSuccess(created);
       }
 
       alert('회원가입이 완료되었습니다. 로그인 해주세요.');
-      setView('login'); // 로그인 페이지로 이동
+      setView('login'); 
     } catch (error) {
       console.error(error);
       alert('회원가입 중 오류가 발생했습니다.');
@@ -148,7 +148,7 @@ const SignupPage = ({ setView, users, onSignupSuccess }) => {
         </div>
       </main>
 
-      {/* 푸터: 로고 + TMDB 저작권 + 오늘 날짜 */}
+      {/* footer: 로고 + TMDB 저작권이랑 주소 + 오늘 날짜 */}
       <footer className="bg-dark text-white py-3 mt-auto">
         <div className="container d-flex flex-column flex-sm-row justify-content-between align-items-center gap-2">
           <div className="d-flex align-items-center gap-2">

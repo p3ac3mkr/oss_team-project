@@ -1,11 +1,11 @@
-//만약 수정할 사항 있으면 주석 달아주세요
+//만약 수정할 사항 있으면 주석 달아주십쇼
 import React, { useState } from 'react';
 
 const LoginPage = ({ setView, onLogin }) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
-  // 오늘 날짜 (YYYY-MM-DD)
+  // 오늘 날짜 (YYYY-MM-DD/2025-12-09같은 식으로 구성해둠)
   const today = new Date().toISOString().slice(0, 10);
 
   const handleSubmit = (e) => {
@@ -90,7 +90,7 @@ const LoginPage = ({ setView, onLogin }) => {
         </div>
       </main>
 
-      {/* 푸터: 로고 + TMDB 저작권 + 오늘 날짜 */}
+      {/* footer: 로고 + TMDB 저작권 + 링크 + 오늘 날짜 */}
       <footer className="bg-dark text-white py-3 mt-auto">
         <div className="container d-flex flex-column flex-sm-row justify-content-between align-items-center gap-2">
           <div className="d-flex align-items-center gap-2">
