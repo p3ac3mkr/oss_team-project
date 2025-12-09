@@ -1,7 +1,10 @@
 import React from 'react';
 
 // 메인 페이지 컴포넌트
-const MainPage = () => {
+const MainPage = ({ currentUser }) => {
+  const userEmail = currentUser?.email_name; 
+  // mockapi에서 email_name 필드 사용중임
+
   return (
     <div className="container py-4">
       {/* 배너 (Hero Section) */}
@@ -15,7 +18,20 @@ const MainPage = () => {
       >
         <div className="container-fluid py-3">
           <h1 className="display-5 fw-bold">이번 주 인기 영화</h1>
-          <p className="col-md-8 fs-4">지금 가장 핫한 영화들을 확인해보세요.</p>
+
+          {/* 로그인한 사용자 정보 표시 */}
+          {userEmail ? (
+            <p className="fs-5 mb-1">
+              <span className="fw-bold">{userEmail}</span> 님, 환영합니다 🎬
+            </p>
+          ) : (
+            <p className="fs-5 mb-1">게스트 모드로 둘러보는 중입니다.</p>
+          )}
+
+          <p className="col-md-8 fs-6">
+            지금 가장 핫한 영화들을 확인해보세요.
+          </p>
+
           <button className="btn btn-warning btn-lg" type="button">
             자세히 보기
           </button>
@@ -50,7 +66,9 @@ const MainPage = () => {
                 <p className="card-text text-muted small">2024.05.01 개봉</p>
                 <div className="d-flex justify-content-between align-items-center">
                   <span className="text-warning fw-bold">★ 8.{item}</span>
-                  <button className="btn btn-sm btn-outline-danger">♥ 찜</button>
+                  <button className="btn btn-sm btn-outline-danger">
+                    ♥ 찜
+                  </button>
                 </div>
               </div>
             </div>

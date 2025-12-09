@@ -127,7 +127,7 @@ const RootComponent = () => {
           onSignupSuccess={handleSignupSuccess}
         />
       )}
-      {view === 'main' && <MainPage />}
+      {view === 'main' && <MainPage currentUser={currentUser} />}
       {view === 'mypage' && <MyPage currentUser={currentUser} />}
     </div>
   );
