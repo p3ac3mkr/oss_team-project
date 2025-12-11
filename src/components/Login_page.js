@@ -99,10 +99,8 @@ const LoginPage = ({ setView, onLogin }) => {
             <span className="fw-bold">MovieApp</span>
           </div>
           <div className="text-center small">
-            <div>
-              This product uses the TMDB API but is not endorsed or certified by
-              TMDB.
-            </div>
+            <div>© 2025 MovieApp. All rights reserved.</div>
+            <div>본 서비스는 TMDB API를 사용하지만 TMDB의 공식 서비스는 아닙니다.</div>
             <div className="text-secondary">제작 날짜: {footerDate}</div>
           </div>
         </div>
