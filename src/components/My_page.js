@@ -1,18 +1,54 @@
 import React, { useState, useEffect } from 'react';
-import { Container, Navbar, Nav, Button, Row, Col, Card, Badge } from 'react-bootstrap';
-import { FaTrash, FaSignOutAlt, FaListUl, FaFilm, FaPlus, FaPencilAlt, FaListOl } from 'react-icons/fa';
+import { Container, Navbar, Nav, Button, Row, Col, Card, Badge, Modal, Form, ListGroup, InputGroup } from 'react-bootstrap';
+import { FaTrash, FaSignOutAlt, FaListUl, FaFilm, FaPencilAlt, FaSearch, FaPlus } from 'react-icons/fa';
 import axios from 'axios';
 
 export default function My_page() {
 
+    // --- TMDB API key ---
     const API_KEY = '2053a71530878c5b6173a50b7e28855d';
     const IMAGE_BASE_URL = 'https://image.tmdb.org/t/p/w500';
 
+    // --- list 관련 State ---
     const [toWatchMovies, setToWatchMovies] = useState([]);
     const [watchedMovies, setWatchedMovies] = useState([]);
 
     const myToWatchIds = [27205, 157336, 155, 496243]; // 인셉션, 인터스텔라, 다크나이트, 기생충
     const myWatchedIds = [299534, 299536]; // 엔드게임, 인피니티 워
+
+    // --- modal 관련 State ---
+    const [showModal, setShowModal] = useState(false);
+    const [modalType, setModalType] = useState(''); // 'towatch' or 'watched'
+    const [searchQuery, setSearchQuery] = useState(''); // 검색어
+    const [searchResults, setSearchResults] = useState([]); // 검색 결과
+
+    // --- modal 열기/닫기 함수 ---
+    const handleOpenModal = (type) => {
+        setModalType(type);
+        setShowModal(true);
+        setSearchQuery(''); // 검색어 초기화
+        setSearchResults([]); // 결과 초기화
+    };
+
+    const handleCloseModal = () => setShowModal(false);
+
+    // --- 영화 검색 함수 (TMDB API) ---
+    const handleSearch = async () => {
+        if (!searchQuery) return;
+        try {
+            const res = await axios.get(`https://api.themoviedb.org/3/search/movie?api_key=${API_KEY}&language=ko-KR&query=${searchQuery}`);
+            setSearchResults(res.data.results);
+        } catch (error) {
+            console.error("검색 실패:", error);
+        }
+    };
+
+    // --- 영화 추가 함수 (지금은 콘솔만 찍음) ---
+    const handleAddMovie = (movie) => {
+        console.log(`[${modalType}] 리스트에 추가할 영화:`, movie.title);
+        // 여기서 나중에 Mock API로 POST 요청을 보낼 겁니다.
+        alert(`${movie.title} 영화가 선택되었습니다! (기능 구현 예정)`);
+    };
 
     useEffect(() => {
         const fetchMovies = async (ids, setState) => {
@@ -36,9 +72,6 @@ export default function My_page() {
         fetchMovies(myToWatchIds, setToWatchMovies);
         fetchMovies(myWatchedIds, setWatchedMovies);
     }, []);
-
-    const toWatchList = [1, 2, 3, 4]; // 볼 영화
-    const watchedList = [1, 2];       // 본 영화
     
     return(
         <>
@@ -78,7 +111,7 @@ export default function My_page() {
                                 <h3 className="fw-bold me-2">To watch</h3>
                                 <Badge bg="danger" pill>{toWatchMovies.length}</Badge>
                             </div>
-                            <Button variant="outline-dark" size="sm" className="d-flex align-items-center" style={{marginRight: "2%"}}>
+                            <Button variant="outline-dark" size="sm" className="d-flex align-items-center" onClick={() => handleOpenModal('towatch')} style={{marginRight: "2%"}}>
                                 <FaPencilAlt className="me-1" /> edit
                             </Button>
                         </div>
@@ -123,7 +156,7 @@ export default function My_page() {
                                 <h3 className="fw-bold me-2">Watched</h3>
                                 <Badge bg="secondary" pill>{watchedMovies.length}</Badge>
                             </div>
-                            <Button variant="outline-dark" size="sm" className="d-flex align-items-center" style={{marginRight: "2%"}}>
+                            <Button variant="outline-dark" size="sm" className="d-flex align-items-center" onClick={() => handleOpenModal('watched')} style={{marginRight: "2%"}}>
                                 <FaPencilAlt className="me-1" /> edit
                             </Button>
                         </div>
@@ -179,6 +212,82 @@ export default function My_page() {
                     </p>
                 </Container>
             </div>
+            
+            {/* CRUD modal */}
+            <Modal show={showModal} onHide={handleCloseModal} size="lg" centered>
+                <Modal.Header closeButton className="bg-dark text-white">
+                    <Modal.Title className="fw-bold">
+                        <FaFilm className="me-2" />
+                        {modalType === 'towatch' ? 'Edit To Watch List' : 'Edit Watched List'}
+                    </Modal.Title>
+                </Modal.Header>
+                <Modal.Body className="bg-light">
+                    {/* 1. 영화 검색 영역 */}
+                    <h5 className="fw-bold mb-3">Add new movies</h5>
+                    <InputGroup className="mb-3">
+                        <Form.Control
+                            placeholder="search with movie title"
+                            value={searchQuery}
+                            onChange={(e) => setSearchQuery(e.target.value)}
+                            onKeyPress={(e) => e.key === 'Enter' && handleSearch()}
+                        />
+                        <Button variant="dark" onClick={handleSearch}>
+                            <FaSearch /> search
+                        </Button>
+                    </InputGroup>
+
+                    {/* 2. 검색 결과 리스트 */}
+                    {searchResults.length > 0 && (
+                        <Card className="mb-4 shadow-sm">
+                            <ListGroup variant="flush" style={{ maxHeight: '300px', overflowY: 'auto' }}>
+                                {searchResults.map(movie => (
+                                    <ListGroup.Item key={movie.id} className="d-flex justify-content-between align-items-center">
+                                        <div className="d-flex align-items-center">
+                                            <img 
+                                                src={movie.poster_path ? `${IMAGE_BASE_URL}${movie.poster_path}` : 'https://via.placeholder.com/50x75'} 
+                                                alt={movie.title}
+                                                style={{ width: '40px', height: '60px', objectFit: 'cover', borderRadius: '4px', marginRight: '10px' }}
+                                            />
+                                            <div>
+                                                <div className="fw-bold">{movie.title}</div>
+                                                <small className="text-muted">{movie.release_date ? movie.release_date.substring(0, 4) : '미정'}</small>
+                                            </div>
+                                        </div>
+                                        <Button variant="outline-primary" size="sm" onClick={() => handleAddMovie(movie)}>
+                                            <FaPlus /> add
+                                        </Button>
+                                    </ListGroup.Item>
+                                ))}
+                            </ListGroup>
+                        </Card>
+                    )}
+
+                    <hr />
+
+                    {/* 3. 현재 리스트 관리 (삭제/수정용) */}
+                    <h5 className="fw-bold mb-3 mt-4">Current list ({modalType === 'towatch' ? toWatchMovies.length : watchedMovies.length})</h5>
+                    <ListGroup variant="flush">
+                        {(modalType === 'towatch' ? toWatchMovies : watchedMovies).map(movie => (
+                            <ListGroup.Item key={movie.id} className="d-flex justify-content-between align-items-center bg-white border mb-2 rounded shadow-sm">
+                                <div className="d-flex align-items-center">
+                                     <span className="fw-bold me-2">#{movie.id}</span>
+                                     <span>{movie.title}</span>
+                                </div>
+                                <div>
+                                    <Button variant="outline-secondary" size="sm" className="me-2"><FaPencilAlt />edit</Button>
+                                    <Button variant="outline-danger" size="sm"><FaTrash /> delete</Button>
+                                </div>
+                            </ListGroup.Item>
+                        ))}
+                    </ListGroup>
+
+                </Modal.Body>
+                <Modal.Footer>
+                    <Button variant="secondary" onClick={handleCloseModal}>
+                        close
+                    </Button>
+                </Modal.Footer>
+            </Modal>
         </>
     );
 }
