@@ -85,14 +85,25 @@ const RootComponent = () => {
       {view !== 'login' && view !== 'signup' && (
         <nav className="navbar navbar-expand-lg navbar-dark bg-dark px-4 mb-4">
           <div className="container-fluid">
-            <span
-              className="navbar-brand fw-bold text-warning"
-              role="button"
-              onClick={() => setView('main')}
-            >
-              🎬 MovieApp
-            </span>
-            <div className="d-flex gap-2">
+            {/* 🔽 로고 + 이메일 묶어서 왼쪽 정렬 */}
+            <div className="d-flex align-items-center gap-3">
+              <span
+                className="navbar-brand fw-bold text-warning"
+                role="button"
+                onClick={() => setView('main')}
+              >
+                🎬 MovieApp
+              </span>
+              {/* 로그인한 사용자 이메일 표시 */}
+              {currentUser && (
+                <span className="text-white small">
+                  {currentUser.email_name} 님
+                </span>
+              )}
+            </div>
+
+            {/* 오른쪽 메뉴 버튼들 */}
+            <div className="d-flex gap-2 ms-auto">
               <button
                 className="btn btn-sm btn-outline-light"
                 onClick={() => setView('main')}

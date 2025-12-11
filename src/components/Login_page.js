@@ -5,8 +5,8 @@ const LoginPage = ({ setView, onLogin }) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
-  // 오늘 날짜 (YYYY-MM-DD/2025-12-09같은 식으로 구성해둠)
-  const today = new Date().toISOString().slice(0, 10);
+  // 🔽 오늘 날짜 대신, 과제 요구대로 "2025-12" 고정
+  const footerDate = '2025-12';
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -19,16 +19,15 @@ const LoginPage = ({ setView, onLogin }) => {
 
   return (
     <div className="d-flex flex-column min-vh-100">
-      {/* 헤더: 로고 */}
+      {/* 🔽 헤더: 로고 중앙 정렬 + 우측 "로그인/회원가입" 문구 삭제 */}
       <header className="bg-dark text-white py-3">
-        <div className="container d-flex justify-content-between align-items-center">
+        <div className="container d-flex justify-content-center">
           <div className="d-flex align-items-center gap-2">
             <span role="img" aria-label="logo">
               🎬
             </span>
             <span className="fw-bold fs-4">MovieApp</span>
           </div>
-          <span className="text-secondary small">로그인 / 회원가입</span>
         </div>
       </header>
 
@@ -90,7 +89,7 @@ const LoginPage = ({ setView, onLogin }) => {
         </div>
       </main>
 
-      {/* footer: 로고 + TMDB 저작권 + 링크 + 오늘 날짜 */}
+      {/* footer: 로고 + TMDB 저작권 + 링크 + 제작날짜 2025.12 고정해둠 */}
       <footer className="bg-dark text-white py-3 mt-auto">
         <div className="container d-flex flex-column flex-sm-row justify-content-between align-items-center gap-2">
           <div className="d-flex align-items-center gap-2">
@@ -100,11 +99,9 @@ const LoginPage = ({ setView, onLogin }) => {
             <span className="fw-bold">MovieApp</span>
           </div>
           <div className="text-center small">
-            <div>
-              This product uses the TMDB API but is not endorsed or certified by
-              TMDB.
-            </div>
-            <div className="text-secondary">오늘 날짜: {today}</div>
+            <div>© 2025 MovieApp. All rights reserved.</div>
+            <div>본 서비스는 TMDB API를 사용하지만 TMDB의 공식 서비스는 아닙니다.</div>
+            <div className="text-secondary">제작 날짜: {footerDate}</div>
           </div>
         </div>
       </footer>
