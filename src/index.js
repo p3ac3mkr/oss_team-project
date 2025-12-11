@@ -5,21 +5,13 @@ import './index.css';
 import MainPage from './components/Main_page';
 import LoginPage from './components/Login_page';
 import SignupPage from './components/Signup_page';
+import My_page from './components/My_page';
 
 const API_URL = 'https://69363c86f8dc350aff3031af.mockapi.io/Login';
 
 // --- [임시 컴포넌트] 마이 페이지 (나중에 My_page.js로 분리 가능) ---
 const MyPage = ({ currentUser }) => (
-  <div className="container py-5">
-    <h4 className="fw-bold mb-3">🍿 내가 찜한 영화</h4>
-    {currentUser ? (
-      <div className="alert alert-info">
-        <b>{currentUser.email_name}</b> 님의 찜한 영화 목록 (추후 구현 예정)
-      </div>
-    ) : (
-      <div className="alert alert-warning">로그인 정보가 없습니다.</div>
-    )}
-  </div>
+  <My_page/>
 );
 
 // --- [메인 로직] 전체 화면 관리 ---
