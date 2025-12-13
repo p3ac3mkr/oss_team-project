@@ -54,7 +54,7 @@ const SignupPage = ({ setView, users, onSignupSuccess }) => {
 
       const created = await res.json();
 
-      // 부모에게 알려서 users 상태 업데이트 진행
+      // users 상태 업데이트 진행
       if (onSignupSuccess) {
         onSignupSuccess(created);
       }

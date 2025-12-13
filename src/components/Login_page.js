@@ -5,7 +5,6 @@ const LoginPage = ({ setView, onLogin }) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
-  // 🔽 오늘 날짜 대신, 과제 요구대로 "2025-12" 고정
   const footerDate = '2025-12';
 
   const handleSubmit = (e) => {
@@ -19,7 +18,7 @@ const LoginPage = ({ setView, onLogin }) => {
 
   return (
     <div className="d-flex flex-column min-vh-100">
-      {/* 🔽 헤더: 로고 중앙 정렬 + 우측 "로그인/회원가입" 문구 삭제 */}
+      {/*헤더: 로고 중앙 정렬 + 우측 "로그인/회원가입" 문구 삭제*/}
       <header className="bg-dark text-white py-3">
         <div className="container d-flex justify-content-center">
           <div className="d-flex align-items-center gap-2">

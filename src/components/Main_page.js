@@ -127,7 +127,6 @@ const MainPage = ({ currentUser, setCurrentUser}) => {
   }
 };
 
-  // ✅ 추가: 시청함 토글 기능 (MockAPI에 watched_movies 저장) 이미 있으면 제거 없으면 추가
   const handleToggleWatched = async (movieId) => {
     if (!currentUser?.id) {
       alert('로그인 후 시청함 기능을 사용할 수 있습니다.');
