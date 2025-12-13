@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { Container, Navbar, Nav, Button, Row, Col, Card, Badge, Modal, Form, ListGroup, InputGroup } from 'react-bootstrap';
 import { FaTrash, FaSignOutAlt, FaListUl, FaFilm, FaPencilAlt, FaSearch, FaPlus } from 'react-icons/fa';
 import axios from 'axios';
@@ -45,6 +46,8 @@ export default function My_page({ currentUser}) { //이거 currentUser만 추가
     };
 
     const handleCloseModal = () => setShowModal(false);
+
+    const navigate = useNavigate();
 
     // --- 영화 검색 함수 (TMDB API) ---
     const handleSearch = async () => {
@@ -116,12 +119,12 @@ export default function My_page({ currentUser}) { //이거 currentUser만 추가
                             {/* header 우측 버튼 그룹: ms-auto로 오른쪽 끝으로 밀기 */}
                             <Nav className="ms-auto d-flex flex-row gap-2">
                                 {/* 메인으로 가기 */}
-                                <Button variant="outline-light" size="sm" href="/">
+                                <Button variant="outline-light" size="sm" onClick={() => navigate('/')}>
                                     <FaListUl /> main page
                                 </Button>
                                 
                                 {/* 로그아웃 */}
-                                <Button variant="danger" size="sm">
+                                <Button variant="danger" size="sm" onClick={() => navigate('/login')}>
                                     <FaSignOutAlt /> sign out
                                 </Button>
                             </Nav>
@@ -157,7 +160,7 @@ export default function My_page({ currentUser}) { //이거 currentUser만 추가
                                                 <Card.Body className="p-2 text-center">
                                                     <Card.Title className="fs-6 fw-bold text-truncate mb-2">{movie.title}</Card.Title>
                                                     <div className="d-flex justify-content-between">
-                                                        <Button variant="outline-light" size="sm" style={{fontSize: '0.7rem'}}>detail</Button>
+                                                        <Button variant="outline-light" size="sm" onClick={() => navigate(`/detail/${movie.id}`)} style={{fontSize: '0.7rem'}}>detail</Button>
                                                         <Button variant="outline-danger" size="sm" style={{fontSize: '0.7rem'}}>delete</Button>
                                                     </div>
                                                 </Card.Body>
