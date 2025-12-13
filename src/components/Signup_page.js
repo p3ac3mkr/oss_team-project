@@ -38,6 +38,8 @@ const SignupPage = ({ setView, users, onSignupSuccess }) => {
         email_name: email,
         password,
         key: Date.now(),
+        favorite_movies: [],
+        watched_movies: [],
       };
 
       const res = await fetch(API_URL, {

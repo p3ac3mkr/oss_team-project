@@ -3,19 +3,33 @@ import { Container, Navbar, Nav, Button, Row, Col, Card, Badge, Modal, Form, Lis
 import { FaTrash, FaSignOutAlt, FaListUl, FaFilm, FaPencilAlt, FaSearch, FaPlus } from 'react-icons/fa';
 import axios from 'axios';
 
-export default function My_page() {
-
+export default function My_page({ currentUser}) { //이거 currentUser만 추가해뒀습니다
+    
     // --- TMDB API key ---
     const API_KEY = '2053a71530878c5b6173a50b7e28855d';
     const IMAGE_BASE_URL = 'https://image.tmdb.org/t/p/w500';
-
+    
     // --- list 관련 State ---
     const [toWatchMovies, setToWatchMovies] = useState([]);
     const [watchedMovies, setWatchedMovies] = useState([]);
 
-    const myToWatchIds = [27205, 157336, 155, 496243]; // 인셉션, 인터스텔라, 다크나이트, 기생충
-    const myWatchedIds = [299534, 299536]; // 엔드게임, 인피니티 워
+    const myToWatchIds = Array.isArray(currentUser?.favorite_movies)
+    ? currentUser.favorite_movies.map((id) => Number(id)) //하드코딩 없애고 id 숫자코드로 강제 변환 시켯습니다
+    : [];
 
+    const myWatchedIds = Array.isArray(currentUser?.watched_movies)
+    ? currentUser.watched_movies.map((id) => Number(id))
+    : [];
+    /*export default function My_page({ currentUser}) { 랑
+
+    const myToWatchIds = Array.isArray(currentUser?.favorite_movies)
+    ? currentUser.favorite_movies.map((id) => Number(id)) 
+    : [];
+    const myWatchedIds = Array.isArray(currentUser?.watched_movies)
+    ? currentUser.watched_movies.map((id) => Number(id))
+    : [];
+    요거만 바꿨어요*/
+    
     // --- modal 관련 State ---
     const [showModal, setShowModal] = useState(false);
     const [modalType, setModalType] = useState(''); // 'towatch' or 'watched'
@@ -54,24 +68,35 @@ export default function My_page() {
         const fetchMovies = async (ids, setState) => {
             try {
                 // 여러 개의 ID를 동시에 비동기로 요청
-                const requests = ids.map(id => 
-                    axios.get(`https://api.themoviedb.org/3/movie/${id}?api_key=${API_KEY}&language=ko-KR`)
-                );
-                
-                // 모든 요청이 끝날 때까지 기다리기
-                const responses = await Promise.all(requests);
-                
-                // 응답에서 data만 뽑아서 State에 저장
-                const moviesData = responses.map(res => res.data);
-                setState(moviesData);
+            if (!ids || ids.length === 0) {
+                setState([]);
+                return;
+            }
+
+            const requests = ids.map(id =>
+                axios.get(`https://api.themoviedb.org/3/movie/${id}?api_key=${API_KEY}&language=ko-KR`)
+            );
+            // 모든 요청이 끝날 때까지 기다리기
+            const responses = await Promise.all(requests);
+            // 응답에서 data만 뽑아서 State에 저장
+            const moviesData = responses.map(res => res.data);
+            setState(moviesData);
             } catch (error) {
-                console.error("영화 정보를 가져오는데 실패했습니다:", error);
+            console.error("영화 정보를 가져오는데 실패했습니다:", error);
+            setState([]);
             }
         };
 
+        // 로그인 안 되어 있으면 비워주도록 바꿔둠
+        if (!currentUser?.id) {
+            setToWatchMovies([]);
+            setWatchedMovies([]);
+            return;
+        }
+
         fetchMovies(myToWatchIds, setToWatchMovies);
         fetchMovies(myWatchedIds, setWatchedMovies);
-    }, []);
+    }, [currentUser]); //찜이나 시청목록 바뀌면 갱신
     
     return(
         <>

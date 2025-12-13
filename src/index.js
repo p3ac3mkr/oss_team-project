@@ -10,8 +10,8 @@ import My_page from './components/My_page';
 const API_URL = 'https://69363c86f8dc350aff3031af.mockapi.io/Login';
 
 // --- [임시 컴포넌트] 마이 페이지 (나중에 My_page.js로 분리 가능) ---
-const MyPage = ({ currentUser }) => (
-  <My_page/>
+const MyPage = ({currentUser}) => (
+  <My_page currentUser={currentUser} /> //props 비어있어서 바꿔뒀슴다
 );
 
 // --- [메인 로직] 전체 화면 관리 ---
@@ -77,7 +77,7 @@ const RootComponent = () => {
       {view !== 'login' && view !== 'signup' && (
         <nav className="navbar navbar-expand-lg navbar-dark bg-dark px-4 mb-4">
           <div className="container-fluid">
-            {/* 🔽 로고 + 이메일 묶어서 왼쪽 정렬 */}
+            {/* 로고 + 이메일 묶어서 왼쪽 정렬 */}
             <div className="d-flex align-items-center gap-3">
               <span
                 className="navbar-brand fw-bold text-warning"
@@ -130,8 +130,20 @@ const RootComponent = () => {
           onSignupSuccess={handleSignupSuccess}
         />
       )}
-      {view === 'main' && <MainPage currentUser={currentUser} />}
-      {view === 'mypage' && <MyPage currentUser={currentUser} />}
+      {view === 'main' && (
+  <MainPage
+    currentUser={currentUser}
+    setCurrentUser={setCurrentUser} // 찜 저장 후 갱신용
+    setView={setView}               // 비회원 로그인 유도용
+  />
+)}
+      {view === 'mypage' && (
+  <MyPage
+    currentUser={currentUser}       
+    setView={setView}
+    onLogout={handleLogout}
+  />
+)}
     </div>
   );
 };
