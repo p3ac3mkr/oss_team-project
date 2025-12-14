@@ -1,7 +1,9 @@
 //만약 수정할 사항 있으면 주석 달아주십쇼
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom'; 
 
-const LoginPage = ({ setView, onLogin }) => {
+const LoginPage = ({ onLogin }) => {
+  const navigate = useNavigate();    
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
@@ -22,9 +24,7 @@ const LoginPage = ({ setView, onLogin }) => {
       <header className="bg-dark text-white py-3">
         <div className="container d-flex justify-content-center">
           <div className="d-flex align-items-center gap-2">
-            <span role="img" aria-label="logo">
-              🎬
-            </span>
+            <span role="img" aria-label="logo">🎬</span>
             <span className="fw-bold fs-4">MovieApp</span>
           </div>
         </div>
@@ -71,7 +71,7 @@ const LoginPage = ({ setView, onLogin }) => {
             <div className="text-center mt-2">
               <button
                 className="btn btn-link text-secondary text-decoration-none"
-                onClick={() => setView('main')}
+                onClick={() => navigate('/')} 
               >
                 비회원으로 둘러보기
               </button>
@@ -79,7 +79,7 @@ const LoginPage = ({ setView, onLogin }) => {
             <div className="text-center">
               <button
                 className="btn btn-link text-primary text-decoration-none"
-                onClick={() => setView('signup')}
+                onClick={() => navigate('/signup')} 
               >
                 아직 회원이 아니신가요? 회원가입
               </button>
@@ -88,13 +88,11 @@ const LoginPage = ({ setView, onLogin }) => {
         </div>
       </main>
 
-      {/* footer: 로고 + TMDB 저작권 + 링크 + 제작날짜 2025.12 고정해둠 */}
+      {/* footer */}
       <footer className="bg-dark text-white py-3 mt-auto">
         <div className="container d-flex flex-column flex-sm-row justify-content-between align-items-center gap-2">
           <div className="d-flex align-items-center gap-2">
-            <span role="img" aria-label="logo">
-              🎬
-            </span>
+            <span role="img" aria-label="logo">🎬</span>
             <span className="fw-bold">MovieApp</span>
           </div>
           <div className="text-center small">
