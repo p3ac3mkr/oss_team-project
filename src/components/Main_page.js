@@ -225,7 +225,7 @@ const MainPage = ({ currentUser, setCurrentUser}) => {
                 onChange={(e) => setQuery(e.target.value)}
                 onKeyDown={(e) => e.key === 'Enter' && handleSearch()}
               />
-              <button className="btn btn-outline-dark" onClick={handleSearch}>
+              <button className="btn btn-outline-dark btn-lg" onClick={handleSearch}>
                 search
               </button>
             </div>
