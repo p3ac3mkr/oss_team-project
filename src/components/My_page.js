@@ -21,15 +21,6 @@ export default function My_page({ currentUser}) { //이거 currentUser만 추가
     const myWatchedIds = Array.isArray(currentUser?.watched_movies)
     ? currentUser.watched_movies.map((id) => Number(id))
     : [];
-    /*export default function My_page({ currentUser}) { 랑
-
-    const myToWatchIds = Array.isArray(currentUser?.favorite_movies)
-    ? currentUser.favorite_movies.map((id) => Number(id)) 
-    : [];
-    const myWatchedIds = Array.isArray(currentUser?.watched_movies)
-    ? currentUser.watched_movies.map((id) => Number(id))
-    : [];
-    요거만 바꿨어요*/
     
     // --- modal 관련 State ---
     const [showModal, setShowModal] = useState(false);
@@ -118,6 +109,15 @@ export default function My_page({ currentUser}) { //이거 currentUser만 추가
                             
                             {/* header 우측 버튼 그룹: ms-auto로 오른쪽 끝으로 밀기 */}
                             <Nav className="ms-auto d-flex flex-row gap-2">
+                                {/* 로그인 정보 표시 */}
+                                {currentUser?.email_name && (
+                                    <span
+                                    className="btn btn-outline-light btn-sm disabled"
+                                    style={{ cursor: 'default' }} 
+                                    >
+                                    Login : <strong>{currentUser.email_name}</strong> 님
+                                    </span>
+                                )}
                                 {/* 메인으로 가기 */}
                                 <Button variant="outline-light" size="sm" onClick={() => navigate('/')}>
                                     <FaListUl /> main page

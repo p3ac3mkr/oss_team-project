@@ -1,6 +1,8 @@
 //만약 수정할 사항 있으면 주석 달아주십쇼
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom'; 
+import { Container, Navbar, Nav, Button } from 'react-bootstrap';
+import { FaListUl, FaFilm, FaSignOutAlt } from 'react-icons/fa';
 
 const API_URL = 'https://69363c86f8dc350aff3031af.mockapi.io/Login';
 
@@ -68,13 +70,14 @@ const SignupPage = ({ users, onSignupSuccess }) => {
   return (
     <div className="d-flex flex-column min-vh-100">
       {/* 헤더: 로고 */}
-      <header className="bg-dark text-white py-3">
-        <div className="container d-flex justify-content-between align-items-center">
+      <header className="bg-dark text-white py-4">
+        <div className="container d-flex justify-content-center">
           <div className="d-flex align-items-center gap-2">
-            <span role="img" aria-label="logo">🎬</span>
-            <span className="fw-bold fs-4">MovieApp</span>
+            <Navbar.Brand href="#" className="fw-bold text-warning fs-3 position-absolute start-50 translate-middle-x">
+              <FaFilm size={30} className="me-2" />
+                MovieArchive
+            </Navbar.Brand>
           </div>
-          <span className="text-secondary small">회원가입</span>
         </div>
       </header>
 
@@ -141,18 +144,17 @@ const SignupPage = ({ users, onSignupSuccess }) => {
       </main>
 
       {/* footer */}
-      <footer className="bg-dark text-white py-3 mt-auto">
-        <div className="container d-flex flex-column flex-sm-row justify-content-between align-items-center gap-2">
-          <div className="d-flex align-items-center gap-2">
-            <span role="img" aria-label="logo">🎬</span>
-            <span className="fw-bold">MovieApp</span>
-          </div>
-          <div className="text-center small">
-            <div>This product uses the TMDB API but is not endorsed or certified by TMDB.</div>
-            <div className="text-secondary">제작 날짜: {footerDate}</div>
-          </div>
-        </div>
-      </footer>
+      <div id="footer" className="bg-dark text-white py-3 mt-5">
+          <Container fluid className="d-flex justify-content-between align-items-center">
+              <Navbar.Brand href="#" className="fw-bold text-warning fs-3 d-flex align-items-center">
+                  <FaFilm size={24} className="me-2" />
+                      MovieArchive
+              </Navbar.Brand>
+              <p className="small text-white-50 mb-0">
+                  2025-12 MovieArchive Project.
+              </p>
+            </Container>
+      </div>
     </div>
   );
 };

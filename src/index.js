@@ -87,52 +87,6 @@ const RootComponent = () => {
 
   return (
     <div className="bg-light min-vh-100 d-flex flex-column">
-
-      {/*네비게이션 바 */}
-      {showNavbar && (
-        <nav className="navbar navbar-expand-lg navbar-dark bg-dark px-4 mb-4">
-          <div className="container-fluid">
-            {/* 로고 + 이메일 */}
-            <div className="d-flex align-items-center gap-3">
-              <span
-                className="navbar-brand fw-bold text-warning"
-                role="button"
-                onClick={() => navigate('/')}
-              >
-                🎬 MovieApp
-              </span>
-              {currentUser && (
-                <span className="text-white small">
-                  {currentUser.email_name} 님
-                </span>
-              )}
-            </div>
-
-            {/* 메뉴 버튼 */}
-            <div className="d-flex gap-2 ms-auto">
-              <button
-                className="btn btn-sm btn-outline-light"
-                onClick={() => navigate('/')}
-              >
-                메인
-              </button>
-              <button
-                className="btn btn-sm btn-outline-light"
-                onClick={() => navigate('/mypage')}
-              >
-                마이페이지
-              </button>
-              <button
-                className="btn btn-sm btn-danger"
-                onClick={handleLogout}
-              >
-                로그아웃
-              </button>
-            </div>
-          </div>
-        </nav>
-      )}
-
       {/*라우터*/}
       <Routes>
         {/* 로그인 */}

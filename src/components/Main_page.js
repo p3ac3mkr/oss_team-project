@@ -1,5 +1,8 @@
 //만약 수정할 사항 있으면 주석 달아주십쇼 아마 이제 메인페이지 건들듯?
 import React, { useEffect, useMemo, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { Container, Navbar, Nav, Button } from 'react-bootstrap';
+import { FaListUl, FaFilm, FaSignOutAlt } from 'react-icons/fa';
 
 const MOCK_API_URL = 'https://69363c86f8dc350aff3031af.mockapi.io/Login';
 const TMDB_API_KEY = '2053a71530878c5b6173a50b7e28855d'; 
@@ -9,7 +12,7 @@ const TMDB_IMAGE_BASE = 'https://image.tmdb.org/t/p/w342';
 const MainPage = ({ currentUser, setCurrentUser}) => {
   const userEmail = currentUser?.email_name;
   const footerDate = "2025-12";
-
+  const navigate = useNavigate();
   // TMDB 영화 목록
   const [movies, setMovies] = useState([]);
 
@@ -31,7 +34,7 @@ const MainPage = ({ currentUser, setCurrentUser}) => {
     const arr = currentUser?.watched_movies;
     return Array.isArray(arr) ? arr : [];
   }, [currentUser]);
-
+  
   // TMDB: 현재 상영작 불러오기
   const fetchNowPlaying = async () => {
     setLoading(true);
@@ -170,31 +173,65 @@ const MainPage = ({ currentUser, setCurrentUser}) => {
 
   return (
     <div className="d-flex flex-column min-vh-100">
-      <div className="container py-4 flex-grow-1">
-        {/* 상단 헤더 + 검색바 */}
-        <div className="d-flex flex-column flex-md-row justify-content-between align-items-center mb-4">
-          <div className="d-flex align-items-center mb-3 mb-md-0">
-            <h2 className="fw-bold mb-0">🎬 MovieApp</h2>
-            {userEmail && (
-              <span className="ms-3 text-muted small">{userEmail} 님</span>
-            )}
-          </div>
+        {/* 상단 헤더 (My_page 헤더 스타일로 통일) */}
+        <div id="div_my-page_header">
+          <Navbar bg="dark" variant="dark" className="px-4 position-relative">
+            <Container fluid>
+              {/* header 로고: position-absolute로 화면 정중앙 강제 고정 */}
+              <Navbar.Brand
+                href="#"
+                className="fw-bold text-warning fs-3 position-absolute start-50 translate-middle-x"
+              >
+                <FaFilm size={30} className="me-2" />
+                MovieArchive
+              </Navbar.Brand>
 
-          {/* 검색바 */}
-          <div className="d-flex w-100 w-md-50" style={{ maxWidth: '480px' }}>
-            <input
-              type="text"
-              className="form-control me-2"
-              placeholder="영화 제목을 검색해보세요..."
-              value={query}
-              onChange={(e) => setQuery(e.target.value)}
-              onKeyDown={(e) => e.key === 'Enter' && handleSearch()}
-            />
-            <button className="btn btn-outline-dark" onClick={handleSearch}>
-              검색
-            </button>
+              {/* header 우측 버튼 그룹: ms-auto로 오른쪽 끝으로 밀기 */}
+              <Nav className="ms-auto d-flex flex-row gap-2">
+                {/* 로그인 정보 표시 */}
+                  {currentUser?.email_name && (
+                    <span
+                      className="btn btn-outline-light btn-sm disabled"
+                      style={{ cursor: 'default' }} 
+                    >
+                      Login : <strong>{currentUser.email_name}</strong> 님
+                    </span>
+                  )}
+                {/* 메인으로 가기 */}
+                <Button variant="outline-light" size="sm" onClick={() => navigate('/mypage')}>
+                  <FaListUl /> my page
+                </Button>
+
+                {/* 로그아웃 */}
+                <Button variant="danger" size="sm" onClick={() => navigate('/login')}>
+                  <FaSignOutAlt /> sign out
+                </Button>
+              </Nav>
+            </Container>
+          </Navbar>
+        </div>
+
+        <div className="container py-4">
+          <div className="d-flex flex-column flex-md-row justify-content-between align-items-center mb-4">
+            
+
+            {/* 검색바 */}
+            <div className="d-flex w-100 w-md-50" style={{ maxWidth: '1580px' }}>
+              <input
+                type="text"
+                className="form-control me-2"
+                placeholder="영화 제목을 검색해보세요..."
+                value={query}
+                onChange={(e) => setQuery(e.target.value)}
+                onKeyDown={(e) => e.key === 'Enter' && handleSearch()}
+              />
+              <button className="btn btn-outline-dark" onClick={handleSearch}>
+                search
+              </button>
+            </div>
           </div>
         </div>
+
 
         {/* 로딩/에러 표시 */}
         {loading && <div className="alert alert-secondary">불러오는 중...</div>}
@@ -236,43 +273,41 @@ const MainPage = ({ currentUser, setCurrentUser}) => {
                       {/*버튼 2개(찜 / 시청함) */}
                       <div className="d-flex gap-2">
                         <button
-                          className={`btn btn-sm ${isFav ? 'btn-danger' : 'btn-outline-danger'}`}
+                          className={`btn btn-sm ${isFav ? 'btn-outline-danger' : 'btn-outline-danger'}`}
+                          style={{ fontSize: '0.7rem' }}
                           onClick={() => handleToggleFavorite(movie.id)}
                         >
-                          ♥ {isFav ? '찜됨' : '찜'}
+                          {isFav ? 'Favorite ✓' : 'Favorite'}
                         </button>
 
-                        {/* 시청함 버튼 추가해둠 */}
                         <button
-                          className={`btn btn-sm ${isWatched ? 'btn-success' : 'btn-outline-success'}`}
+                          className={`btn btn-sm ${isWatched ? 'btn-outline-success' : 'btn-outline-success'}`}
+                          style={{ fontSize: '0.7rem' }}
                           onClick={() => handleToggleWatched(movie.id)}
                         >
-                          ✓ {isWatched ? '시청함' : '시청'}
+                          {isWatched ? 'Watched ✓' : 'Watched'}
                         </button>
                       </div>
                     </div>
+
                   </div>
                 </div>
               </div>
             );
           })}
         </div>
-      </div>
-
-      {/* footer: 로고 + TMDB 저작권 + 링크 + 제작날짜 2025.12 고정해둠 */}
-      <footer className="bg-dark text-white py-3 mt-auto">
-        <div className="container d-flex flex-column flex-sm-row justify-content-between align-items-center gap-2">
-          <div className="d-flex align-items-center gap-2">
-            <span role="img" aria-label="logo"> 🎬 </span>
-            <span className="fw-bold">MovieApp</span>
-          </div>
-          <div className="text-center small">
-            <div>© 2025 MovieApp. All rights reserved.</div>
-            <div>본 서비스는 TMDB API를 사용하지만 TMDB의 공식 서비스는 아닙니다.</div>
-            <div className="text-secondary">본 서비스 제작 날짜: {footerDate}</div>
-          </div>
-        </div>
-      </footer>
+      {/* footer */}
+            <div id="footer" className="bg-dark text-white py-3 mt-5">
+                <Container fluid className="d-flex justify-content-between align-items-center">
+                    <Navbar.Brand href="#" className="fw-bold text-warning fs-3 d-flex align-items-center">
+                        <FaFilm size={24} className="me-2" />
+                            MovieArchive
+                    </Navbar.Brand>
+                    <p className="small text-white-50 mb-0">
+                        2025-12 MovieArchive Project.
+                    </p>
+                  </Container>
+            </div>
     </div>
   );
 };
