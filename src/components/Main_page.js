@@ -5,6 +5,7 @@ import { Container, Navbar, Nav, Button } from 'react-bootstrap';
 import { FaListUl, FaFilm, FaSignOutAlt } from 'react-icons/fa';
 
 const MOCK_API_URL = 'https://69363c86f8dc350aff3031af.mockapi.io/Login';
+const MOCK_MOVIE_INFO_URL = 'https://69363c86f8dc350aff3031af.mockapi.io/movieInfo';
 const TMDB_API_KEY = '2053a71530878c5b6173a50b7e28855d'; 
 const TMDB_IMAGE_BASE = 'https://image.tmdb.org/t/p/w342';
 
@@ -113,7 +114,7 @@ const MainPage = ({ currentUser, setCurrentUser}) => {
     };
 
     const res = await fetch(`${MOCK_API_URL}/${currentUser.id}`, {
-      method: 'PUT', // PATCH로 하니까 막히드라 이거 MOCKAPI가 막아뒀나바
+      method: 'PUT',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(payload),
     });
@@ -123,11 +124,38 @@ const MainPage = ({ currentUser, setCurrentUser}) => {
     setCurrentUser?.(updatedUser);
     console.log("PUT 성공 updatedUser:", updatedUser);
 
-    if (!already) alert('찜 목록에 추가되었습니다!');
-  } catch (e) {
+    if (!already) {
+        const movieInfoPayload = {
+          userKey: currentUser.key,  // 유저 식별 키
+          movieID: movieId,          // 영화 ID
+          // 아래는 초기값 설정
+          totalRate: 0,
+          scenarioRate: 0,
+          directionRate: 0,
+          musicRate: 0,
+          review: '',
+          rcmRate: 0,
+          listCategory: 'toWatch'
+        };
+
+        const infoRes = await fetch(MOCK_MOVIE_INFO_URL, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(movieInfoPayload),
+        });
+
+        if (infoRes.ok) {
+           console.log("MovieInfo created for movie:", movieId);
+        } else {
+           console.warn("Failed to create MovieInfo data");
+        }
+      }
+
+    if (!already) alert('To watch list에 추가되었습니다!');
+} catch (e) {
     console.error(e);
-    alert('찜 저장에 실패했습니다. 잠시 후 다시 시도해주세요.');
-  }
+    alert('To watch list 저장에 실패했습니다. 잠시 후 다시 시도해주세요.');
+    }
 };
 
   const handleToggleWatched = async (movieId) => {
@@ -164,10 +192,37 @@ const MainPage = ({ currentUser, setCurrentUser}) => {
       setCurrentUser?.(updatedUser);
       console.log("PUT 성공 updatedUser:", updatedUser);
 
-      if (!already) alert('시청함 목록에 추가되었습니다!');
+      if (!already) {
+        const movieInfoPayload = {
+          userKey: currentUser.key,  // 유저 식별 키
+          movieID: movieId,          // 영화 ID
+          // 아래는 초기값 설정
+          totalRate: 0,
+          scenarioRate: 0,
+          directionRate: 0,
+          musicRate: 0,
+          review: '',
+          rcmRate: 0,
+          listCategory: 'watched'
+        };
+
+        const infoRes = await fetch(MOCK_MOVIE_INFO_URL, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(movieInfoPayload),
+        });
+
+        if (infoRes.ok) {
+           console.log("MovieInfo created for movie:", movieId);
+        } else {
+           console.warn("Failed to create MovieInfo data");
+        }
+      }
+
+      if (!already) alert('Watched list에 추가되었습니다!');
     } catch (e) {
       console.error(e);
-      alert('시청함 저장에 실패했습니다. 잠시 후 다시 시도해주세요.');
+      alert('Watched list 저장에 실패했습니다. 잠시 후 다시 시도해주세요.');
     }
   };
 

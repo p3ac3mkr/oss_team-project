@@ -160,7 +160,15 @@ export default function My_page({ currentUser}) { //이거 currentUser만 추가
                                                 <Card.Body className="p-2 text-center">
                                                     <Card.Title className="fs-6 fw-bold text-truncate mb-2">{movie.title}</Card.Title>
                                                     <div className="d-flex justify-content-between">
-                                                        <Button variant="outline-light" size="sm" onClick={() => navigate(`/detail/${movie.id}`)} style={{fontSize: '0.7rem'}}>detail</Button>
+                                                        <Button variant="outline-light" size="sm" onClick={() => {
+                                                            console.log("클릭한 영화 ID:", movie.id); // 1. ID가 찍히는지 확인!
+                                                            
+                                                            if (movie.id) {
+                                                                navigate(`/detail/${movie.id}`); // 2. ID가 있을 때만 이동
+                                                            } else {
+                                                                alert("영화 ID가 없습니다! 데이터를 확인해주세요.");
+                                                            }
+                                                        }} style={{fontSize: '0.7rem'}}>detail</Button>
                                                         <Button variant="outline-danger" size="sm" style={{fontSize: '0.7rem'}}>delete</Button>
                                                     </div>
                                                 </Card.Body>
@@ -208,7 +216,18 @@ export default function My_page({ currentUser}) { //이거 currentUser만 추가
                                                 </div>
                                                 <Card.Body className="p-2 text-center">
                                                     <Card.Title className="fs-6 fw-bold text-truncate mb-2">{movie.title}</Card.Title>
-                                                    <Button variant="outline-danger" size="sm" className="w-100" style={{fontSize: '0.7rem'}}>delete</Button>
+                                                    <div className="d-flex justify-content-between">
+                                                        <Button variant="outline-light" size="sm" onClick={() => {
+                                                            console.log("클릭한 영화 ID:", movie.id); // 1. ID가 찍히는지 확인!
+                                                            
+                                                            if (movie.id) {
+                                                                navigate(`/detail/${movie.id}`); // 2. ID가 있을 때만 이동
+                                                            } else {
+                                                                alert("영화 ID가 없습니다! 데이터를 확인해주세요.");
+                                                            }
+                                                        }} style={{fontSize: '0.7rem'}}>detail</Button>
+                                                        <Button variant="outline-danger" size="sm" style={{fontSize: '0.7rem'}}>delete</Button>
+                                                    </div>
                                                 </Card.Body>
                                             </Card>
 

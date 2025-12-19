@@ -16,6 +16,8 @@ import MainPage from './components/Main_page';
 import LoginPage from './components/Login_page';
 import SignupPage from './components/Signup_page';
 import My_page from './components/My_page';
+import Detail_page from './components/Detail_page';
+import Edit_page from './components/Edit_page';
 
 const API_URL = 'https://69363c86f8dc350aff3031af.mockapi.io/Login';
 
@@ -132,6 +134,13 @@ const RootComponent = () => {
             )
           }
         />
+
+        {/* 5. 상세 페이지 (:id는 변수) */}
+        // src/index.js 수정 (부분)
+        <Route path="/detail/:id" element={<Detail_page currentUser={currentUser} />} />
+
+        {/* 6. 수정 페이지 (:id는 변수) */}
+        <Route path="/edit/:id" element={<Edit_page currentUser={currentUser} />} />
 
         {/* 그 외 경로 */}
         <Route path="*" element={<Navigate to="/login" replace />} />
