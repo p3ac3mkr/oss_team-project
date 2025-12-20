@@ -70,15 +70,7 @@ const LoginPage = ({ onLogin }) => {
               </button>
             </form>
 
-            {/* 비회원 / 회원가입 링크 */}
-            <div className="text-center mt-2">
-              <button
-                className="btn btn-link text-secondary text-decoration-none"
-                onClick={() => navigate('/')} 
-              >
-                비회원으로 둘러보기
-              </button>
-            </div>
+            {/* 회원가입 링크 */}
             <div className="text-center">
               <button
                 className="btn btn-link text-primary text-decoration-none"

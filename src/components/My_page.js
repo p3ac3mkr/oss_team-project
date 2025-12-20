@@ -309,7 +309,7 @@ export default function My_page({ currentUser, setCurrentUser }) {
                                 <Button variant="outline-light" size="sm" onClick={() => navigate('/')}>
                                     <FaListUl /> main page
                                 </Button>
-                                <Button variant="danger" size="sm" onClick={() => navigate('/login')}>
+                                <Button variant="danger" size="sm" onClick={() => navigate('/logout')}>
                                     <FaSignOutAlt /> sign out
                                 </Button>
                             </Nav>

@@ -124,7 +124,7 @@ export default function Edit_page({ currentUser }) {
                         <FaFilm className="me-2" /> MovieArchive
                     </Navbar.Brand>
                     <Button variant="outline-light" size="sm" onClick={() => navigate(`/detail/${id}`)}>
-                        <FaArrowLeft className="me-1" /> 취소
+                        <FaArrowLeft className="me-1" /> cancel
                     </Button>
                 </Container>
             </Navbar>
@@ -134,8 +134,7 @@ export default function Edit_page({ currentUser }) {
                     <Col lg={10}>
                         <Card className="shadow-sm border-0">
                             <Card.Header className="bg-white py-3 border-bottom-0">
-                                <h3 className="fw-bold mb-0">✏️ 감상평 수정하기</h3>
-                                <p className="text-muted small mb-0">{tmdbData.title}</p>
+                                <h3 className="fw-bold mb-0"> &lt; {tmdbData.title} &gt; 수정하기</h3>
                             </Card.Header>
                             
                             <Card.Body className="p-4">
@@ -225,7 +224,7 @@ export default function Edit_page({ currentUser }) {
 
                                             {/* 3. 리뷰 작성 */}
                                             <Form.Group className="mb-4">
-                                                <Form.Label className="fw-bold">💬 감상평 (Review)</Form.Label>
+                                                <Form.Label className="fw-bold">💬 리뷰</Form.Label>
                                                 <Form.Control 
                                                     as="textarea" 
                                                     rows={5} 
@@ -239,10 +238,10 @@ export default function Edit_page({ currentUser }) {
                                             {/* 버튼 영역 */}
                                             <div className="d-flex justify-content-end gap-2">
                                                 <Button variant="secondary" onClick={() => navigate(-1)}>
-                                                    <FaUndo className="me-1" /> 취소
+                                                    <FaUndo className="me-1" /> cancel
                                                 </Button>
                                                 <Button variant="primary" onClick={handleSave}>
-                                                    <FaSave className="me-1" /> 저장하기
+                                                    <FaSave className="me-1" /> save
                                                 </Button>
                                             </div>
                                         </Form>

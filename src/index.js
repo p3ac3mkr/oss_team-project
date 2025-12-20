@@ -27,8 +27,12 @@ const RootComponent = () => {
   const location = useLocation();
 
   const [users, setUsers] = useState([]);           // 전체 회원 목록
-  const [currentUser, setCurrentUser] = useState(null); // 로그인 유저
   const [loading, setLoading] = useState(true);
+  const [currentUser, setCurrentUser] = useState(() => {
+    const savedUser = localStorage.getItem('currentUser');
+    // 저장된 값이 있으면 JSON으로 변환해서 넣고, 없으면 null
+    return savedUser ? JSON.parse(savedUser) : null;
+  });
 
   //  앱 시작 시 회원 목록 불러오기 
   useEffect(() => {
@@ -65,6 +69,8 @@ const RootComponent = () => {
     }
 
     setCurrentUser(found);
+    localStorage.setItem('currentUser', JSON.stringify(found));
+
     alert(`환영합니다, ${email}님!`);
     navigate('/'); // 메인 페이지로 이동
   };
@@ -78,8 +84,12 @@ const RootComponent = () => {
 
   //로그아웃 
   const handleLogout = () => {
-    setCurrentUser(null);
     alert('로그아웃 되었습니다.');
+    
+    setCurrentUser(null);
+
+    localStorage.removeItem('currentUser');
+
     navigate('/login');
   };
 
@@ -147,6 +157,13 @@ const RootComponent = () => {
 
         {/* 그 외 경로 */}
         <Route path="*" element={<Navigate to="/login" replace />} />
+
+        {/* 로그아웃 */}
+        <Route
+          path="/logout"
+          element={<LoginPage onLogin={handleLogout} />}
+        />
+
       </Routes>
     </div>
   );

@@ -17,3 +17,27 @@ code {
     padding-top: 36px;   /* 버튼 위치 조절용 */
   }
 }
+
+/* 992px 이하(태블릿/모바일) 화면일 때 적용 */
+@media (max-width: 991px) {
+  /* 1. 헤더 컨테이너를 세로 정렬로 변경 */
+  #div_my-page_header .container-fluid {
+    display: flex;
+    flex-direction: column; /* 세로로 쌓기 */
+    gap: 15px;              /* 로고와 버튼 사이 간격 */
+  }
+
+  /* 2. 로고의 절대 위치(absolute) 강제 해제 */
+  #div_my-page_header .navbar-brand {
+    position: static !important;   /* 절대 위치 끄기 */
+    transform: none !important;    /* 중앙 정렬 트릭 끄기 */
+    margin: 0 auto !important;     /* 자체적으로 중앙 정렬 */
+  }
+
+  /* 3. 버튼 그룹 정렬 */
+  #div_my-page_header .navbar-nav {
+    margin-left: 0 !important;     /* ms-auto(오른쪽 밀기) 해제 */
+    justify-content: center;       /* 버튼들 가운데 정렬 */
+    width: 100%;
+  }
+}

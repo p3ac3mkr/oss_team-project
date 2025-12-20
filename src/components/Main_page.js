@@ -252,7 +252,7 @@ const MainPage = ({ currentUser, setCurrentUser }) => {
                 <Button variant="outline-light" size="sm" onClick={() => navigate('/mypage')}>
                   <FaListUl /> my page
                 </Button>
-                <Button variant="danger" size="sm" onClick={() => navigate('/login')}>
+                <Button variant="danger" size="sm" onClick={() => navigate('/logout')}>
                   <FaSignOutAlt /> sign out
                 </Button>
               </Nav>
