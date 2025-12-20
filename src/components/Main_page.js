@@ -228,11 +228,12 @@ const MainPage = ({ currentUser, setCurrentUser}) => {
 
   return (
     <div className="d-flex flex-column min-vh-100">
-        {/* 상단 헤더 (My_page 헤더 스타일로 통일) */}
+        {/* 상단 헤더 (반응형: 작은 화면에서는 버튼이 아래로 내려감) */}
         <div id="div_my-page_header">
-          <Navbar bg="dark" variant="dark" className="px-4 position-relative">
+          <Navbar bg="dark" variant="dark" expand="lg" className="px-4 position-relative">
             <Container fluid>
-              {/* header 로고: position-absolute로 화면 정중앙 강제 고정 */}
+
+              {/* 로고 (항상 중앙) */}
               <Navbar.Brand
                 href="#"
                 className="fw-bold text-warning fs-3 position-absolute start-50 translate-middle-x"
@@ -241,30 +242,50 @@ const MainPage = ({ currentUser, setCurrentUser}) => {
                 MovieArchive
               </Navbar.Brand>
 
-              {/* header 우측 버튼 그룹: ms-auto로 오른쪽 끝으로 밀기 */}
-              <Nav className="ms-auto d-flex flex-row gap-2">
-                {/* 로그인 정보 표시 */}
+              {/* 모바일 햄버거 버튼 */}
+              <Navbar.Toggle aria-controls="mainpage-navbar" />
+
+              {/* 버튼 영역 */}
+              <Navbar.Collapse
+                id="mainpage-navbar"
+                className="justify-content-end"
+              >
+                <Nav className="ms-auto d-flex flex-row gap-2 align-items-center header-actions">
+
+                  {/* 로그인 정보 */}
                   {currentUser?.email_name && (
                     <span
-                      className="btn btn-outline-light btn-sm disabled"
-                      style={{ cursor: 'default' }} 
+                      className="btn btn-outline-light btn-sm disabled text-start"
+                      style={{ cursor: 'default' }}
                     >
                       Login : <strong>{currentUser.email_name}</strong> 님
                     </span>
                   )}
-                {/* 메인으로 가기 */}
-                <Button variant="outline-light" size="sm" onClick={() => navigate('/mypage')}>
-                  <FaListUl /> my page
-                </Button>
 
-                {/* 로그아웃 */}
-                <Button variant="danger" size="sm" onClick={() => navigate('/login')}>
-                  <FaSignOutAlt /> sign out
-                </Button>
-              </Nav>
+                  {/* 마이페이지 */}
+                  <Button
+                    variant="outline-light"
+                    size="sm"
+                    onClick={() => navigate('/mypage')}
+                  >
+                    <FaListUl /> my page
+                  </Button>
+
+                  {/* 로그아웃 */}
+                  <Button
+                    variant="danger"
+                    size="sm"
+                    onClick={() => navigate('/login')}
+                  >
+                    <FaSignOutAlt /> sign out
+                  </Button>
+                </Nav>
+              </Navbar.Collapse>
+
             </Container>
           </Navbar>
         </div>
+
 
         <div className="container py-4">
           <div className="d-flex flex-column flex-md-row justify-content-between align-items-center mb-4">
@@ -332,7 +353,7 @@ const MainPage = ({ currentUser, setCurrentUser}) => {
                           style={{ fontSize: '0.7rem' }}
                           onClick={() => handleToggleFavorite(movie.id)}
                         >
-                          {isFav ? 'Favorite ✓' : 'Favorite'}
+                          {isFav ? 'To Watch ✓' : 'To Watch'}
                         </button>
 
                         <button

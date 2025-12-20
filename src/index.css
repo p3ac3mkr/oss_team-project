@@ -12,3 +12,8 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+@media (max-width: 1000px) {
+  .header-actions {
+    padding-top: 36px;   /* 버튼 위치 조절용 */
+  }
+}
