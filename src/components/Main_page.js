@@ -292,9 +292,6 @@ const MainPage = ({ currentUser, setCurrentUser }) => {
                         <button className={`btn btn-sm ${isFav ? 'btn-danger' : 'btn-outline-danger'}`} style={{ fontSize: '0.7rem' }} onClick={() => handleToggletoWatch(movie.id)}>
                           {isFav ? 'To watch ✓' : 'To watch'}
                         </button>
-                        <button className={`btn btn-sm ${isFav ? 'btn-danger' : 'btn-outline-danger'}`} style={{ fontSize: '0.7rem' }} onClick={() => handleToggletoWatch(movie.id)}>
-                          {isFav ? 'To watch ✓' : 'To watch'}
-                        </button>
                         <button className={`btn btn-sm ${isWatched ? 'btn-success' : 'btn-outline-success'}`} style={{ fontSize: '0.7rem' }} onClick={() => handleToggleWatched(movie.id)}>
                           {isWatched ? 'Watched ✓' : 'Watched'}
                         </button>
