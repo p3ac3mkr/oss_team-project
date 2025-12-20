@@ -128,7 +128,10 @@ const RootComponent = () => {
           path="/mypage"
           element={
             currentUser ? (
-              <My_page currentUser={currentUser} />
+              <My_page 
+                currentUser={currentUser} 
+                setCurrentUser={setCurrentUser}
+              />
             ) : (
               <Navigate to="/login" replace />
             )

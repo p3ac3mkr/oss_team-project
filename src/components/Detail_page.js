@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Container, Navbar, Button, Row, Col, Card, Badge, ProgressBar, Spinner } from 'react-bootstrap';
-import { FaArrowLeft, FaStar, FaCalendarAlt, FaTv, FaTrash, FaUserTie, FaBuilding, FaFilm, FaPencilAlt } from 'react-icons/fa';
+import { FaArrowLeft, FaStar, FaCalendarAlt, FaTrash, FaUserTie, FaBuilding, FaFilm, FaPencilAlt } from 'react-icons/fa';
 import { useParams, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 
@@ -194,7 +194,7 @@ export default function Detail_page({ currentUser }) {
                                     <Card.Body className="p-4">
                                         <h4 className="fw-bold mb-4 d-flex align-items-center">
                                             <FaStar className="text-warning me-2" /> 
-                                            사용자 평점 분석
+                                            나의 평점
                                         </h4>
                                         
                                         <Row className="align-items-center mb-4">
@@ -252,14 +252,14 @@ export default function Detail_page({ currentUser }) {
                                     {/* [조건부] Watched: 리뷰 및 버튼 표시 */}
                                     {isWatched ? (
                                         <>
-                                            <h5 className="fw-bold mb-3 mt-4">💬 나의 감상평</h5>
+                                            <h5 className="fw-bold mb-3 mt-4">💬 나의 리뷰</h5>
                                             <div className="bg-light p-3 rounded" style={{borderLeft: '5px solid #ffc107'}}>
                                                 {userLog && userLog.review ? (
                                                     <p className="mb-0 fs-5 fst-italic text-dark" style={{lineHeight: '1.6'}}>
                                                         "{userLog.review}"
                                                     </p>
                                                 ) : (
-                                                    <p className="text-muted fst-italic mb-0">작성된 감상평이 없습니다.</p>
+                                                    <p className="text-muted fst-italic mb-0">작성된 리뷰가 없습니다.</p>
                                                 )}
                                             </div>
                                             
