@@ -97,12 +97,8 @@ export default function Edit_page({ currentUser }) {
         if (!recordId) return;
 
         try {
-            // 수정 시에는 'watched' 상태로 강제 변경할지, 기존 상태를 유지할지 결정
-            // 보통 리뷰를 쓴다는 건 봤다는 뜻이므로 'watched'로 설정하는 것이 자연스럽습니다.
             const updatePayload = {
                 ...formData,
-                listCategory: 'watched', // 리뷰 작성 시 '시청함'으로 상태 확정
-                // userKey와 movieID는 수정하지 않음 (식별자)
             };
 
             await axios.put(`${MOCK_API_URL}/${recordId}`, updatePayload);

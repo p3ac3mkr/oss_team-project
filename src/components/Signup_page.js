@@ -41,7 +41,7 @@ const SignupPage = ({ users, onSignupSuccess }) => {
         email_name: email,
         password,
         key: Date.now(),
-        favorite_movies: [],
+        toWatch_movies: [],
         watched_movies: [],
       };
 
