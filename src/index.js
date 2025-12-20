@@ -14,6 +14,7 @@ import './index.css';
 // 페이지 컴포넌트
 import MainPage from './components/Main_page';
 import LoginPage from './components/Login_page';
+import LogoutPage from './components/Logout_page';
 import SignupPage from './components/Signup_page';
 import My_page from './components/My_page';
 import Detail_page from './components/Detail_page';
@@ -85,12 +86,12 @@ const RootComponent = () => {
   //로그아웃 
   const handleLogout = () => {
     alert('로그아웃 되었습니다.');
-    
+
     setCurrentUser(null);
 
     localStorage.removeItem('currentUser');
 
-    navigate('/login');
+    navigate('/logout');
   };
 
   //네비게이션 바 표시 여부
@@ -161,7 +162,7 @@ const RootComponent = () => {
         {/* 로그아웃 */}
         <Route
           path="/logout"
-          element={<LoginPage onLogin={handleLogout} />}
+          element={<LogoutPage onLogin={handleLogout} />}
         />
 
       </Routes>
