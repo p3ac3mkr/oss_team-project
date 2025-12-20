@@ -235,7 +235,11 @@ const MainPage = ({ currentUser, setCurrentUser }) => {
         <div id="div_my-page_header">
           <Navbar bg="dark" variant="dark" expand="lg" className="px-4 position-relative">
             <Container fluid>
-              <Navbar.Brand href="#" className="fw-bold text-warning fs-3 position-absolute start-50 translate-middle-x">
+              {/* 로고 (항상 중앙) */}
+              <Navbar.Brand
+                href="#"
+                className="fw-bold text-warning fs-3 position-absolute start-50 translate-middle-x"
+              >
                 <FaFilm size={30} className="me-2" />
                 MovieArchive
               </Navbar.Brand>
@@ -255,7 +259,6 @@ const MainPage = ({ currentUser, setCurrentUser }) => {
             </Container>
           </Navbar>
         </div>
-
         {/* 검색 및 리스트 */}
         <div className="container py-4">
           <div className="d-flex flex-column flex-md-row justify-content-between align-items-center mb-4">
@@ -286,6 +289,9 @@ const MainPage = ({ currentUser, setCurrentUser }) => {
                     <div className="d-flex justify-content-between align-items-center">
                       <span className="text-warning fw-bold">★ {typeof movie.vote_average === 'number' ? movie.vote_average.toFixed(1) : '-'}</span>
                       <div className="d-flex gap-2">
+                        <button className={`btn btn-sm ${isFav ? 'btn-danger' : 'btn-outline-danger'}`} style={{ fontSize: '0.7rem' }} onClick={() => handleToggletoWatch(movie.id)}>
+                          {isFav ? 'To watch ✓' : 'To watch'}
+                        </button>
                         <button className={`btn btn-sm ${isFav ? 'btn-danger' : 'btn-outline-danger'}`} style={{ fontSize: '0.7rem' }} onClick={() => handleToggletoWatch(movie.id)}>
                           {isFav ? 'To watch ✓' : 'To watch'}
                         </button>
